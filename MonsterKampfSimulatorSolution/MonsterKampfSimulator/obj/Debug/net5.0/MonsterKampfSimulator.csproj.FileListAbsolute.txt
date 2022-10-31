@@ -14,3 +14,5 @@ D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKamp
 D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.pdb
 D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.genruntimeconfig.cache
 D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\ref\MonsterKampfSimulator.dll
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.Properties.Resources.resources
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.csproj.GenerateResource.cache

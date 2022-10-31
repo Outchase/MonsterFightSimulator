@@ -1,0 +1,16 @@
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\bin\Debug\net5.0\MonsterKampfSimulator.exe
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\bin\Debug\net5.0\MonsterKampfSimulator.deps.json
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\bin\Debug\net5.0\MonsterKampfSimulator.runtimeconfig.json
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\bin\Debug\net5.0\MonsterKampfSimulator.runtimeconfig.dev.json
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\bin\Debug\net5.0\MonsterKampfSimulator.dll
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\bin\Debug\net5.0\MonsterKampfSimulator.pdb
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.csproj.AssemblyReference.cache
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.GeneratedMSBuildEditorConfig.editorconfig
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.AssemblyInfoInputs.cache
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.AssemblyInfo.cs
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.csproj.CoreCompileInputs.cache
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.dll
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\refint\MonsterKampfSimulator.dll
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.pdb
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\MonsterKampfSimulator.genruntimeconfig.cache
+D:\SAE\1sem\4F01\MonsterFightSimulator\MonsterKampfSimulatorSolution\MonsterKampfSimulator\obj\Debug\net5.0\ref\MonsterKampfSimulator.dll

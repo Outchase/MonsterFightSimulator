@@ -18,6 +18,10 @@ namespace MonsterKampfSimulator
         {
             Monster player1 = new();
             Monster player2 = new();
+            Random random = new();
+            object[] playerTurn = new object[2];
+
+            // bool fightOver = false;
 
             Console.WriteLine("start game");
 
@@ -50,9 +54,58 @@ namespace MonsterKampfSimulator
 
 
 
+
             Console.WriteLine(player1.race[player1.raceValue] + " vs. " + player2.race[player2.raceValue]);
 
+            //Console.WriteLine(player2.stats["S"]);
 
+            if (player1.stats["S"] == player2.stats["S"])
+            {
+                Console.WriteLine("Lets flip a coin");
+
+                int coinFlipvalue = random.Next(1, 21);
+
+                //Console.WriteLine(coinFlipvalue); //debugging
+
+                if (coinFlipvalue > 10)
+                {
+                    Console.WriteLine(player2.race[player2.raceValue] + " starts first");
+                    playerTurn[0] = player2;
+                    playerTurn[1] = player1;
+                }
+                else
+                {
+                    Console.WriteLine(player1.race[player1.raceValue] + " starts first");
+                    playerTurn[0] = player1;
+                    playerTurn[1] = player2;
+                }
+
+            }
+            else if (player1.stats["S"] > player2.stats["S"])
+            {
+                Console.WriteLine(player1.race[player1.raceValue] + " starts first");
+                playerTurn[0] = player1;
+                playerTurn[1] = player2;
+
+            }
+            else
+            {
+                Console.WriteLine(player2.race[player2.raceValue] + " starts first");
+                playerTurn[0] = player2;
+                playerTurn[1] = player1;
+            }
+
+            Console.WriteLine(playerTurn[1]);
+
+
+            /* for (int i = 0; i < playerTurn.Length; i++)
+             {
+                 Console.WriteLine(playerTurn[i]);
+             }*/
+            /*while (!fightOver)
+            {
+
+            }*/
             //player1.stats["HP"] = 20;
 
             //ShowMonsterStats(player1, true);
@@ -128,6 +181,8 @@ namespace MonsterKampfSimulator
                 }
             }
         }
+
+
     }
 }
 

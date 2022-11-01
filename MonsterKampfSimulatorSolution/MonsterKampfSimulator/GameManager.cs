@@ -21,27 +21,41 @@ namespace MonsterKampfSimulator
 
             Console.WriteLine("start game");
 
-            while () { 
-            
+            while (player1.race[player1.raceValue] == player2.race[player2.raceValue])
+            {
+                ShowListOfMonsters(player1);
+
+                string message = "To simulate a combat, choose a Monster: ";
+
+                VerifySelectedMonster(false, message, player1);
+
+                message = "Choose a second Monster: ";
+
+                VerifySelectedMonster(false, message, player2);
+
+                if (player1.race[player1.raceValue] == player2.race[player2.raceValue])
+                {
+                    Console.Clear();
+                    Console.WriteLine("It is not allow monsters of the same race to fight one other"); //Print it red
+                }
             }
 
-            ShowListOfMonsters(player1);
+            SetMonsterStats(player1);
 
-            string message = "To simulate a combat, choose a Monster: ";
+            ShowMonsterStats(player1);
 
-            player1.raceValue = VerifySelectedMonster(false, message, player1);
+            SetMonsterStats(player2);
 
-            message = "Choose a second Monster: ";
+            ShowMonsterStats(player2);
 
-            player2.raceValue = VerifySelectedMonster(false, message, player2);
+
 
             Console.WriteLine(player1.race[player1.raceValue] + " vs. " + player2.race[player2.raceValue]);
 
 
+            //player1.stats["HP"] = 20;
 
-            player1.stats["HP"] = 20;
-
-            ShowMonsterStats(player1);
+            //ShowMonsterStats(player1, true);
 
 
             return true;
@@ -54,6 +68,7 @@ namespace MonsterKampfSimulator
 
             foreach (KeyValuePair<string, float> kvp in monster.stats)
             {
+
                 Console.WriteLine(kvp.Key + " " + kvp.Value);
             }
         }
@@ -68,7 +83,7 @@ namespace MonsterKampfSimulator
             }
         }
 
-        public static int VerifySelectedMonster(bool isNumber, string message, Monster monster)
+        public static void VerifySelectedMonster(bool isNumber, string message, Monster monster)
         {
             int numericValue = 0;
             //int numberOfTries = 0; set random after too many tries
@@ -76,7 +91,7 @@ namespace MonsterKampfSimulator
             {
                 Console.Write(message);
                 string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out numericValue) && numericValue > 0 &&  numericValue <= monster.race.Length)
+                if (int.TryParse(userInput, out numericValue) && numericValue > 0 && numericValue <= monster.race.Length)
                 {
                     isNumber = true;
                     numericValue--;
@@ -86,13 +101,33 @@ namespace MonsterKampfSimulator
                      numberOfTries++;
                  }*/
             }
-            return numericValue;
-
+            monster.raceValue = numericValue;
         }
 
         public static void SetMonsterStats(Monster monster)
         {
+            foreach (KeyValuePair<string, float> kvp in monster.stats)
+            {
+                bool isNumber = false;
 
+                while (!isNumber)
+                {
+                    Console.Write("Set " + kvp.Key + " value of " + monster.race[monster.raceValue] + ": ");
+
+                    string userInput = Console.ReadLine();
+                    if (float.TryParse(userInput, out float numericValue))
+                    {
+                        monster.stats[kvp.Key] = numericValue;
+
+                    }
+                    else
+                    {
+                        monster.stats[kvp.Key] = 0;
+                    }
+                    isNumber = true;
+                }
+            }
         }
     }
 }
+

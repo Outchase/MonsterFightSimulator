@@ -130,8 +130,6 @@ namespace MonsterKampfSimulator
                         fightOver = true;
                         break;
                     }
-
-
                 }
 
                 Console.WriteLine();

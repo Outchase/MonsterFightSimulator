@@ -19,11 +19,12 @@ namespace MonsterKampfSimulator
             Monster player1 = new();
             Monster player2 = new();
             Random random = new();
-            object[] playerTurn = new object[2];
+            Monster[] playerTurn = new Monster[2];
+            int rounds = 1;
 
-            // bool fightOver = false;
+            bool fightOver = false;
 
-            Console.WriteLine("start game");
+            //Console.WriteLine("start game");
 
             while (player1.race[player1.raceValue] == player2.race[player2.raceValue])
             {
@@ -52,8 +53,7 @@ namespace MonsterKampfSimulator
 
             ShowMonsterStats(player2);
 
-
-
+            Console.Clear();
 
             Console.WriteLine(player1.race[player1.raceValue] + " vs. " + player2.race[player2.raceValue]);
 
@@ -61,7 +61,8 @@ namespace MonsterKampfSimulator
 
             if (player1.stats["S"] == player2.stats["S"])
             {
-                Console.WriteLine("Lets flip a coin");
+                Console.WriteLine("Lets flip a coin...");
+                Console.ReadKey(true);
 
                 int coinFlipvalue = random.Next(1, 21);
 
@@ -69,13 +70,13 @@ namespace MonsterKampfSimulator
 
                 if (coinFlipvalue > 10)
                 {
-                    Console.WriteLine(player2.race[player2.raceValue] + " starts first");
+                    Console.WriteLine(player2.race[player2.raceValue] + " starts first!");
                     playerTurn[0] = player2;
                     playerTurn[1] = player1;
                 }
                 else
                 {
-                    Console.WriteLine(player1.race[player1.raceValue] + " starts first");
+                    Console.WriteLine(player1.race[player1.raceValue] + " starts first!");
                     playerTurn[0] = player1;
                     playerTurn[1] = player2;
                 }
@@ -83,33 +84,77 @@ namespace MonsterKampfSimulator
             }
             else if (player1.stats["S"] > player2.stats["S"])
             {
-                Console.WriteLine(player1.race[player1.raceValue] + " starts first");
+                Console.WriteLine(player1.race[player1.raceValue] + " starts first!");
                 playerTurn[0] = player1;
                 playerTurn[1] = player2;
-
             }
             else
             {
-                Console.WriteLine(player2.race[player2.raceValue] + " starts first");
+                Console.WriteLine(player2.race[player2.raceValue] + " starts first!");
                 playerTurn[0] = player2;
                 playerTurn[1] = player1;
             }
+            Console.ReadKey(true);
+            Console.Clear();
 
-            Console.WriteLine(playerTurn[1]);
-
-
-            /* for (int i = 0; i < playerTurn.Length; i++)
-             {
-                 Console.WriteLine(playerTurn[i]);
-             }*/
-            /*while (!fightOver)
+            while (!fightOver)
             {
+                if (!fightOver)
+                {
+                    Console.WriteLine("Round " + rounds);
+                    rounds++;
+                }
 
-            }*/
-            //player1.stats["HP"] = 20;
 
-            //ShowMonsterStats(player1, true);
+                for (int i = 0; i < playerTurn.Length; i++)
+                {
 
+                    if (player1.stats["HP"] == 0 || player2.stats["HP"] == 0)
+                    {
+                        fightOver = true;
+                        break;
+                    }
+
+                    if (i == 0)
+                    {
+                        playerTurn[i].Attack(playerTurn[i + 1]);
+                    }
+                    else
+                    {
+                        playerTurn[i].Attack(playerTurn[i - 1]);
+
+                    }
+
+                    if (player1.stats["HP"] == 0 || player2.stats["HP"] == 0)
+                    {
+                        fightOver = true;
+                        break;
+                    }
+
+
+                }
+
+                Console.WriteLine();
+            }
+
+
+            rounds--;
+            Console.WriteLine("battle over...");
+            Console.ReadKey(true);
+            Console.Clear();
+
+            if (player1.stats["HP"] == 0)
+            {
+                Console.WriteLine(player1.race[player1.raceValue] + " got deafeated!");
+                Console.WriteLine(player2.race[player2.raceValue] + " won the fight!");
+            }
+            else
+            {
+                Console.WriteLine(player2.race[player2.raceValue] + " got deafeated!");
+                Console.WriteLine(player1.race[player1.raceValue] + " won the fight!");
+            }
+
+            Console.WriteLine("The battle lasted " + rounds + " round ");
 
             return true;
         }
@@ -181,7 +226,6 @@ namespace MonsterKampfSimulator
                 }
             }
         }
-
 
     }
 }

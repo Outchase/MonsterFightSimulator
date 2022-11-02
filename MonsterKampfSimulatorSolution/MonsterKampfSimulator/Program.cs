@@ -16,7 +16,7 @@ namespace MonsterKampfSimulator
                 wantToPlayAgain = GameManager.StartGame();
             }
 
-            Console.WriteLine("Thanks for Playing");
+            Console.WriteLine("Thanks for Playing!");
             Environment.Exit(0);
         }
     }

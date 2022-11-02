@@ -30,9 +30,23 @@ namespace MonsterKampfSimulator
             "Centaur"
         };
 
-        public void Attack()
+        public void Attack(Monster monster)
         {
-            Console.WriteLine("attack");
+
+            Console.WriteLine(race[raceValue] + " attacks " + monster.race[monster.raceValue] + " with " + stats["AP"] + " AP!");
+            float damage = stats["AP"] - monster.stats["DP"];
+            Console.ReadKey(true);
+
+            Console.WriteLine(monster.race[monster.raceValue] + " recieve -" + damage + " damage");
+            monster.stats["HP"] -= damage;
+            Console.ReadKey(true);
+
+            if (monster.stats["HP"] < 0)
+            {
+                monster.stats["HP"] = 0;
+            }
+            Console.WriteLine(monster.race[monster.raceValue] + " HP = " + monster.stats["HP"]);
+            Console.ReadKey(true);
         }
     }
 }

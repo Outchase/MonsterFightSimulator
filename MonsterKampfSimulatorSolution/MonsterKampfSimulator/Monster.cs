@@ -18,6 +18,7 @@ namespace MonsterKampfSimulator
         };
 
         public int raceValue = 0;
+        public ConsoleColor printColor= 0;
 
          public string[] race = {
             "Orc",
@@ -33,7 +34,7 @@ namespace MonsterKampfSimulator
         public void Attack(Monster monster)
         {
 
-            Console.WriteLine(race[raceValue] + " attacks " + monster.race[monster.raceValue] + " with " + stats["AP"] + " AP!");
+            Console.WriteLine("\n"+race[raceValue] + " attacks " + monster.race[monster.raceValue] + " with " + stats["AP"] + " AP!");
             float damage = stats["AP"] - monster.stats["DP"];
             Console.ReadKey(true);
 

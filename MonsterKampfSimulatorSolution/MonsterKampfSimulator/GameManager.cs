@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -19,64 +21,88 @@ namespace MonsterKampfSimulator
             Monster player1 = new();
             Monster player2 = new();
             Random random = new();
+            ASCIISIGN sign = new();
             Monster[] playerTurn = new Monster[2];
-            int rounds = 1;
-
+            int rounds = 0;
             bool fightOver = false;
+            string tmpMessage;
+            bool confirmMonsterSetStats = false;
+            player1.printColor = ConsoleColor.Red;
+            player2.printColor = ConsoleColor.Cyan;
 
-            //Console.WriteLine("start game");
+
+            PrintInColor(sign.title + "\n" + "Press Enter to Start\n", ConsoleColor.Yellow, true);
+            OnPressContinue(true);
+
 
             while (player1.race[player1.raceValue] == player2.race[player2.raceValue])
             {
-                ShowListOfMonsters(player1);
-
-                string message = "To simulate a combat, choose a Monster: ";
-
-                VerifySelectedMonster(false, message, player1);
-
-                message = "Choose a second Monster: ";
-
-                VerifySelectedMonster(false, message, player2);
-
-                if (player1.race[player1.raceValue] == player2.race[player2.raceValue])
+                bool confirmMonsterChoice = false;
+                while (!confirmMonsterChoice)
                 {
-                    Console.Clear();
-                    Console.WriteLine("It is not allow monsters of the same race to fight one other"); //Print it red
+                    ShowListOfMonsters(player1);
+
+                    string message = "To simulate a combat, choose a Monster: ";
+
+                    VerifySelectedMonster(false, message, player1);
+
+                    message = "Choose a second Monster: ";
+
+                    VerifySelectedMonster(false, message, player2);
+
+                    if (player1.race[player1.raceValue] == player2.race[player2.raceValue])
+                    {
+                        Console.Clear();
+                        PrintInColor("It is not allow monsters of the same race to fight one other\n", ConsoleColor.Red, true);
+                    }
+
+                    PrintInColor("\nAre you sure with this choice? [Y/n]\n", ConsoleColor.Green, true);
+                    confirmMonsterChoice = OnPressYesOrNo(true);
+
                 }
             }
 
-            SetMonsterStats(player1);
+            while (!confirmMonsterSetStats)
+            {
+                SetMonsterStats(player1);
+                Console.WriteLine();
+                ShowMonsterStats(player1);
+                PrintInColor("Are you sure with these stats? [Y/n]\n", ConsoleColor.Green, true);
+                confirmMonsterSetStats = OnPressYesOrNo(true);
+            }
 
-            ShowMonsterStats(player1);
+            confirmMonsterSetStats = false;
 
-            SetMonsterStats(player2);
+            while (!confirmMonsterSetStats)
+            {
+                SetMonsterStats(player2);
+                Console.WriteLine();
+                ShowMonsterStats(player2);
+                PrintInColor("Are you sure with these stats? [Y/n]\n", ConsoleColor.Green, true);
+                confirmMonsterSetStats = OnPressYesOrNo(true);
+            }
 
-            ShowMonsterStats(player2);
-
-            Console.Clear();
-
-            Console.WriteLine(player1.race[player1.raceValue] + " vs. " + player2.race[player2.raceValue]);
-
-            //Console.WriteLine(player2.stats["S"]);
+            PrintInColor(player1.race[player1.raceValue] + " vs. " + player2.race[player2.raceValue] + "\n", ConsoleColor.Green, true);
 
             if (player1.stats["S"] == player2.stats["S"])
             {
-                Console.WriteLine("Lets flip a coin...");
-                Console.ReadKey(true);
+                Console.Write("Lets flip a coin...   ");
+                PrintInColor("(Press enter to continue)\n", ConsoleColor.Yellow, true);
+                OnPressContinue(false);
 
-                int coinFlipvalue = random.Next(1, 21);
+                //Console.ReadKey(true); // replace confirm choice funtion
 
-                //Console.WriteLine(coinFlipvalue); //debugging
+                bool canPlayer2Start = FlipCoin(random);
 
-                if (coinFlipvalue > 10)
+                if (canPlayer2Start)
                 {
-                    Console.WriteLine(player2.race[player2.raceValue] + " starts first!");
+                    PrintInColor(player2.race[player2.raceValue], player2.printColor, true);
                     playerTurn[0] = player2;
                     playerTurn[1] = player1;
                 }
                 else
                 {
-                    Console.WriteLine(player1.race[player1.raceValue] + " starts first!");
+                    PrintInColor(player1.race[player1.raceValue], player1.printColor, true);
                     playerTurn[0] = player1;
                     playerTurn[1] = player2;
                 }
@@ -84,27 +110,24 @@ namespace MonsterKampfSimulator
             }
             else if (player1.stats["S"] > player2.stats["S"])
             {
-                Console.WriteLine(player1.race[player1.raceValue] + " starts first!");
+                PrintInColor(player1.race[player1.raceValue], player1.printColor, true);
                 playerTurn[0] = player1;
                 playerTurn[1] = player2;
             }
             else
             {
-                Console.WriteLine(player2.race[player2.raceValue] + " starts first!");
+                PrintInColor(player2.race[player2.raceValue], player2.printColor, true);
                 playerTurn[0] = player2;
                 playerTurn[1] = player1;
             }
-            Console.ReadKey(true);
-            Console.Clear();
+            Console.WriteLine(" starts first!\n");
 
             while (!fightOver)
             {
-                if (!fightOver)
-                {
-                    Console.WriteLine("Round " + rounds);
-                    rounds++;
-                }
+                PrintInColor("\nPress enter to continue...", ConsoleColor.Yellow, true);
+                OnPressContinue(true);
 
+                PrintInColor("Round " + (rounds+1) + "\n", ConsoleColor.Yellow, true);
 
                 for (int i = 0; i < playerTurn.Length; i++)
                 {
@@ -132,19 +155,20 @@ namespace MonsterKampfSimulator
                     }
                 }
 
-                Console.WriteLine();
+                rounds++;
             }
 
-
-            rounds--;
-            Console.WriteLine("battle over...");
-            Console.ReadKey(true);
-            Console.Clear();
+            Console.WriteLine("battle over...\n");
+            PrintInColor("Press enter to continue...", ConsoleColor.Yellow, true);
+            OnPressContinue(true);
 
             if (player1.stats["HP"] == 0)
             {
-                Console.WriteLine(player1.race[player1.raceValue] + " got deafeated!");
-                Console.WriteLine(player2.race[player2.raceValue] + " won the fight!");
+                PrintInColor(player1.race[player1.raceValue], player1.printColor, true);
+                Console.WriteLine(" got deafeated!");
+
+                PrintInColor(player2.race[player2.raceValue], player2.printColor, true);
+                Console.WriteLine(" won the fight!");
             }
             else
             {
@@ -152,21 +176,39 @@ namespace MonsterKampfSimulator
                 Console.WriteLine(player1.race[player1.raceValue] + " won the fight!");
             }
 
-            Console.WriteLine("The battle lasted " + rounds + " round ");
+            Console.Write("\nThe battle lasted ");
 
-            return true;
+
+            if (rounds > 1)
+            {
+                tmpMessage = " rounds";
+            }
+            else
+            {
+                tmpMessage = " round";
+            }
+            PrintInColor(rounds + tmpMessage +"\n", ConsoleColor.Yellow, true);
+
+
+            PrintInColor("\nDo you want to try again? [Y/n]\n", ConsoleColor.Green, true);
+            return OnPressYesOrNo(true);
         }
 
         //Display stats of given monster as parameter
         public static void ShowMonsterStats(Monster monster)
         {
-            Console.WriteLine(monster.race[monster.raceValue]);
+            PrintInColor(monster.race[monster.raceValue], ConsoleColor.Yellow, true);
+
+            Console.WriteLine();
 
             foreach (KeyValuePair<string, float> kvp in monster.stats)
             {
+                PrintInColor(kvp.Key + ": ", ConsoleColor.Cyan, true);
 
-                Console.WriteLine(kvp.Key + " " + kvp.Value);
+                Console.WriteLine(kvp.Value);
             }
+
+            Console.WriteLine();
         }
 
         //Display list of monsters
@@ -185,7 +227,7 @@ namespace MonsterKampfSimulator
             //int numberOfTries = 0; set random after too many tries
             while (!isNumber)
             {
-                Console.Write(message);
+                PrintInColor(message, ConsoleColor.Green, false);
                 string userInput = Console.ReadLine();
                 if (int.TryParse(userInput, out numericValue) && numericValue > 0 && numericValue <= monster.race.Length)
                 {
@@ -196,6 +238,7 @@ namespace MonsterKampfSimulator
                  {
                      numberOfTries++;
                  }*/
+                Console.ResetColor();
             }
             monster.raceValue = numericValue;
         }
@@ -225,6 +268,82 @@ namespace MonsterKampfSimulator
             }
         }
 
+        public static void PrintInColor(string message, ConsoleColor color, bool resetColor)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(message);
+            if (resetColor)
+            {
+                Console.ResetColor();
+            }
+        }
+
+        public static bool FlipCoin(Random random)
+        {
+            int coinFlipvalue = random.Next(1, 21);
+
+            if (coinFlipvalue > 10)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
+
+        public static void OnPressContinue(bool clearConsole)
+        {
+            ConsoleKeyInfo userKeyInput;
+            bool keyPressedRight = false;
+
+            while (!keyPressedRight)
+            {
+
+                userKeyInput = Console.ReadKey(true);
+
+                if (userKeyInput.Key == ConsoleKey.Enter)
+                {
+                    keyPressedRight = true;
+                }
+            }
+
+            if (clearConsole)
+            {
+                Console.Clear();
+            }
+        }
+
+        public static bool OnPressYesOrNo(bool clearConsole)
+        {
+            ConsoleKeyInfo userKeyInput;
+            bool keyPressedRight = false;
+            bool isAYes = false;
+
+            while (!keyPressedRight)
+            {
+
+                userKeyInput = Console.ReadKey(true);
+
+                if (userKeyInput.Key == ConsoleKey.Y)
+                {
+                    keyPressedRight = true;
+                    isAYes = true;
+                }
+                else if (userKeyInput.Key == ConsoleKey.N)
+                {
+                    keyPressedRight = true;
+                }
+            }
+            if (clearConsole)
+            {
+                Console.Clear();
+            }
+            return isAYes;
+
+        }
     }
 }
 

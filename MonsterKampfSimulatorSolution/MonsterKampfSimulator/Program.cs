@@ -9,14 +9,18 @@ namespace MonsterKampfSimulator
     {
         static void Main(string[] args)
         {
-            bool wantToPlayAgain = false;
+            bool wantToPlayAgain = true;
+            ASCIISIGN sign = new();
 
-            while (!wantToPlayAgain)
+            while (wantToPlayAgain)
             {
                 wantToPlayAgain = GameManager.StartGame();
             }
 
-            Console.WriteLine("Thanks for Playing!");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(sign.outro);
+            Console.ResetColor();
+
             Environment.Exit(0);
         }
     }

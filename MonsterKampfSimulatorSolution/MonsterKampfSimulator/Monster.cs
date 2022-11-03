@@ -9,7 +9,6 @@ namespace MonsterKampfSimulator
 
     internal class Monster
     {
-
         public Dictionary<string, float> stats = new() {
             {"HP", 0},
             {"AP", 0},
@@ -18,9 +17,9 @@ namespace MonsterKampfSimulator
         };
 
         public int raceValue = 0;
-        public ConsoleColor printColor= 0;
+        public ConsoleColor printColor = 0;
 
-         public string[] race = {
+        public string[] race = {
             "Orc",
             "Troll",
             "Goblin",
@@ -31,14 +30,37 @@ namespace MonsterKampfSimulator
             "Centaur"
         };
 
-        public void Attack(Monster monster)
+        public void Attack(Monster monster, Features feature)
         {
 
-            Console.WriteLine("\n"+race[raceValue] + " attacks " + monster.race[monster.raceValue] + " with " + stats["AP"] + " AP!");
+            feature.PrintInColor(race[raceValue], printColor, true);
+            Console.Write(" attacks ");
+            feature.PrintInColor(monster.race[monster.raceValue], monster.printColor, true);
+            Console.WriteLine(" with " + stats["AP"] + " AP!");
+
+            //flipcoin high crit chance
+            bool isCritHit = feature.FlipCoin(false);
             float damage = stats["AP"] - monster.stats["DP"];
             Console.ReadKey(true);
 
-            Console.WriteLine(monster.race[monster.raceValue] + " recieve -" + damage + " damage");
+            if (isCritHit)
+            {
+                damage *= 2f;
+                feature.PrintInColor("Critical hit!\n", ConsoleColor.Yellow, true);
+                Console.ReadKey(true);
+            }
+
+            //flip coin to perfect dodge
+            bool didDodged = feature.FlipCoin(false);
+            if (didDodged)
+            {
+                damage = 0;
+                feature.PrintInColor(monster.race[monster.raceValue] + " dodged!\n", ConsoleColor.Yellow, true);
+                Console.ReadKey(true);
+            }
+
+            feature.PrintInColor(monster.race[monster.raceValue], monster.printColor, true);
+            Console.WriteLine(" takes -" + damage + " damage");
             monster.stats["HP"] -= damage;
             Console.ReadKey(true);
 
@@ -46,7 +68,9 @@ namespace MonsterKampfSimulator
             {
                 monster.stats["HP"] = 0;
             }
-            Console.WriteLine(monster.race[monster.raceValue] + " HP = " + monster.stats["HP"]);
+            feature.PrintInColor(monster.race[monster.raceValue], monster.printColor, true);
+            Console.WriteLine(" has " + monster.stats["HP"] + " HP left");
+            Console.WriteLine();
             Console.ReadKey(true);
         }
     }

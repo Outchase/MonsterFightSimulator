@@ -15,13 +15,13 @@ namespace MonsterKampfSimulator
 {
     internal class GameManager
     {
-
+        //Gameplay
         public static bool StartGame()
         {
             Monster player1 = new();
             Monster player2 = new();
-            Random random = new();
             ASCIISIGN sign = new();
+            Features feature = new();
             Monster[] playerTurn = new Monster[2];
             int rounds = 0;
             bool fightOver = false;
@@ -31,7 +31,7 @@ namespace MonsterKampfSimulator
             player2.printColor = ConsoleColor.Cyan;
 
 
-            PrintInColor(sign.title + "\n" + "Press Enter to Start\n", ConsoleColor.Yellow, true);
+            feature.PrintInColor(sign.title + "\n" + "Press Enter to Start\n", ConsoleColor.Yellow, true);
             OnPressContinue(true);
 
 
@@ -42,22 +42,25 @@ namespace MonsterKampfSimulator
                 {
                     ShowListOfMonsters(player1);
 
-                    string message = "To simulate a combat, choose a Monster: ";
+                    string message = "\nTo simulate a combat, choose a Monster: ";
 
-                    VerifySelectedMonster(false, message, player1);
+                    VerifySelectedMonster(false, message, player1, feature);
 
                     message = "Choose a second Monster: ";
 
-                    VerifySelectedMonster(false, message, player2);
+                    VerifySelectedMonster(false, message, player2, feature);
 
                     if (player1.race[player1.raceValue] == player2.race[player2.raceValue])
                     {
                         Console.Clear();
-                        PrintInColor("It is not allow monsters of the same race to fight one other\n", ConsoleColor.Red, true);
+                        feature.PrintInColor("It is not allow monsters of the same race to fight one other\n", ConsoleColor.Red, true);
                     }
+                    else
+                    {
 
-                    PrintInColor("\nAre you sure with this choice? [Y/n]\n", ConsoleColor.Green, true);
-                    confirmMonsterChoice = OnPressYesOrNo(true);
+                        feature.PrintInColor("\nAre you sure with this choice? [Y/n]\n", ConsoleColor.Green, true);
+                        confirmMonsterChoice = OnPressYesOrNo(true);
+                    }
 
                 }
             }
@@ -66,8 +69,8 @@ namespace MonsterKampfSimulator
             {
                 SetMonsterStats(player1);
                 Console.WriteLine();
-                ShowMonsterStats(player1);
-                PrintInColor("Are you sure with these stats? [Y/n]\n", ConsoleColor.Green, true);
+                feature.ShowMonsterStats(player1);
+                feature.PrintInColor("Are you sure with these stats? [Y/n]\n", ConsoleColor.Green, true);
                 confirmMonsterSetStats = OnPressYesOrNo(true);
             }
 
@@ -77,32 +80,30 @@ namespace MonsterKampfSimulator
             {
                 SetMonsterStats(player2);
                 Console.WriteLine();
-                ShowMonsterStats(player2);
-                PrintInColor("Are you sure with these stats? [Y/n]\n", ConsoleColor.Green, true);
+                feature.ShowMonsterStats(player2);
+                feature.PrintInColor("Are you sure with these stats? [Y/n]\n", ConsoleColor.Green, true);
                 confirmMonsterSetStats = OnPressYesOrNo(true);
             }
 
-            PrintInColor(player1.race[player1.raceValue] + " vs. " + player2.race[player2.raceValue] + "\n", ConsoleColor.Green, true);
+            feature.PrintInColor(player1.race[player1.raceValue] + " vs. " + player2.race[player2.raceValue] + "\n\n", ConsoleColor.Green, true);
 
             if (player1.stats["S"] == player2.stats["S"])
             {
                 Console.Write("Lets flip a coin...   ");
-                PrintInColor("(Press enter to continue)\n", ConsoleColor.Yellow, true);
+                feature.PrintInColor("(Press enter to continue)\n\n", ConsoleColor.Yellow, true);
                 OnPressContinue(false);
 
-                //Console.ReadKey(true); // replace confirm choice funtion
-
-                bool canPlayer2Start = FlipCoin(random);
+                bool canPlayer2Start = feature.FlipCoin(true);
 
                 if (canPlayer2Start)
                 {
-                    PrintInColor(player2.race[player2.raceValue], player2.printColor, true);
+                    feature.PrintInColor(player2.race[player2.raceValue], player2.printColor, true);
                     playerTurn[0] = player2;
                     playerTurn[1] = player1;
                 }
                 else
                 {
-                    PrintInColor(player1.race[player1.raceValue], player1.printColor, true);
+                    feature.PrintInColor(player1.race[player1.raceValue], player1.printColor, true);
                     playerTurn[0] = player1;
                     playerTurn[1] = player2;
                 }
@@ -110,13 +111,13 @@ namespace MonsterKampfSimulator
             }
             else if (player1.stats["S"] > player2.stats["S"])
             {
-                PrintInColor(player1.race[player1.raceValue], player1.printColor, true);
+                feature.PrintInColor(player1.race[player1.raceValue], player1.printColor, true);
                 playerTurn[0] = player1;
                 playerTurn[1] = player2;
             }
             else
             {
-                PrintInColor(player2.race[player2.raceValue], player2.printColor, true);
+                feature.PrintInColor(player2.race[player2.raceValue], player2.printColor, true);
                 playerTurn[0] = player2;
                 playerTurn[1] = player1;
             }
@@ -124,10 +125,10 @@ namespace MonsterKampfSimulator
 
             while (!fightOver)
             {
-                PrintInColor("\nPress enter to continue...", ConsoleColor.Yellow, true);
+                feature.PrintInColor("Press enter to continue...", ConsoleColor.Yellow, true);
                 OnPressContinue(true);
 
-                PrintInColor("Round " + (rounds+1) + "\n", ConsoleColor.Yellow, true);
+                feature.PrintInColor("Round " + (rounds + 1) + "\n\n", ConsoleColor.Yellow, true);
 
                 for (int i = 0; i < playerTurn.Length; i++)
                 {
@@ -140,11 +141,11 @@ namespace MonsterKampfSimulator
 
                     if (i == 0)
                     {
-                        playerTurn[i].Attack(playerTurn[i + 1]);
+                        playerTurn[i].Attack(playerTurn[i + 1], feature);
                     }
                     else
                     {
-                        playerTurn[i].Attack(playerTurn[i - 1]);
+                        playerTurn[i].Attack(playerTurn[i - 1], feature);
 
                     }
 
@@ -154,26 +155,28 @@ namespace MonsterKampfSimulator
                         break;
                     }
                 }
-
                 rounds++;
             }
 
             Console.WriteLine("battle over...\n");
-            PrintInColor("Press enter to continue...", ConsoleColor.Yellow, true);
+            feature.PrintInColor("Press enter to continue...", ConsoleColor.Yellow, true);
             OnPressContinue(true);
 
             if (player1.stats["HP"] == 0)
             {
-                PrintInColor(player1.race[player1.raceValue], player1.printColor, true);
+                feature.PrintInColor(player1.race[player1.raceValue], player1.printColor, true);
                 Console.WriteLine(" got deafeated!");
 
-                PrintInColor(player2.race[player2.raceValue], player2.printColor, true);
+                feature.PrintInColor(player2.race[player2.raceValue], player2.printColor, true);
                 Console.WriteLine(" won the fight!");
             }
             else
             {
-                Console.WriteLine(player2.race[player2.raceValue] + " got deafeated!");
-                Console.WriteLine(player1.race[player1.raceValue] + " won the fight!");
+                feature.PrintInColor(player2.race[player2.raceValue], player2.printColor, true);
+                Console.WriteLine(" got deafeated!");
+
+                feature.PrintInColor(player1.race[player1.raceValue], player1.printColor, true);
+                Console.WriteLine(" won the fight!");
             }
 
             Console.Write("\nThe battle lasted ");
@@ -187,28 +190,12 @@ namespace MonsterKampfSimulator
             {
                 tmpMessage = " round";
             }
-            PrintInColor(rounds + tmpMessage +"\n", ConsoleColor.Yellow, true);
+
+            feature.PrintInColor(rounds + tmpMessage + "\n", ConsoleColor.Yellow, true);
 
 
-            PrintInColor("\nDo you want to try again? [Y/n]\n", ConsoleColor.Green, true);
+            feature.PrintInColor("\nDo you want to try again? [Y/n]\n", ConsoleColor.Green, true);
             return OnPressYesOrNo(true);
-        }
-
-        //Display stats of given monster as parameter
-        public static void ShowMonsterStats(Monster monster)
-        {
-            PrintInColor(monster.race[monster.raceValue], ConsoleColor.Yellow, true);
-
-            Console.WriteLine();
-
-            foreach (KeyValuePair<string, float> kvp in monster.stats)
-            {
-                PrintInColor(kvp.Key + ": ", ConsoleColor.Cyan, true);
-
-                Console.WriteLine(kvp.Value);
-            }
-
-            Console.WriteLine();
         }
 
         //Display list of monsters
@@ -221,13 +208,14 @@ namespace MonsterKampfSimulator
             }
         }
 
-        public static void VerifySelectedMonster(bool isNumber, string message, Monster monster)
+        //Verify input is a number and selects only from the list
+        public static void VerifySelectedMonster(bool isNumber, string message, Monster monster, Features feature)
         {
             int numericValue = 0;
             //int numberOfTries = 0; set random after too many tries
             while (!isNumber)
             {
-                PrintInColor(message, ConsoleColor.Green, false);
+                feature.PrintInColor(message, ConsoleColor.Green, false);
                 string userInput = Console.ReadLine();
                 if (int.TryParse(userInput, out numericValue) && numericValue > 0 && numericValue <= monster.race.Length)
                 {
@@ -266,32 +254,6 @@ namespace MonsterKampfSimulator
                     isNumber = true;
                 }
             }
-        }
-
-        public static void PrintInColor(string message, ConsoleColor color, bool resetColor)
-        {
-            Console.ForegroundColor = color;
-            Console.Write(message);
-            if (resetColor)
-            {
-                Console.ResetColor();
-            }
-        }
-
-        public static bool FlipCoin(Random random)
-        {
-            int coinFlipvalue = random.Next(1, 21);
-
-            if (coinFlipvalue > 10)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-
         }
 
         public static void OnPressContinue(bool clearConsole)

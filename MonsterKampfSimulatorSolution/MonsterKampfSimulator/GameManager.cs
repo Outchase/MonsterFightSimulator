@@ -30,10 +30,9 @@ namespace MonsterKampfSimulator
             player1.printColor = ConsoleColor.Red;
             player2.printColor = ConsoleColor.Cyan;
 
-
+            //Console.WriteLine(Resources.confirmInput);
             feature.PrintInColor(sign.title + "\n" + "Press Enter to Start\n", ConsoleColor.Yellow, true);
             OnPressContinue(true);
-
 
             while (player1.race[player1.raceValue] == player2.race[player2.raceValue])
             {
@@ -57,7 +56,6 @@ namespace MonsterKampfSimulator
                     }
                     else
                     {
-
                         feature.PrintInColor("\nAre you sure with this choice? [Y/n]\n", ConsoleColor.Green, true);
                         confirmMonsterChoice = OnPressYesOrNo(true);
                     }
@@ -130,6 +128,7 @@ namespace MonsterKampfSimulator
 
                 feature.PrintInColor("Round " + (rounds + 1) + "\n\n", ConsoleColor.Yellow, true);
 
+
                 for (int i = 0; i < playerTurn.Length; i++)
                 {
 
@@ -139,9 +138,14 @@ namespace MonsterKampfSimulator
                         break;
                     }
 
+                    // int activePlayer = 0;
+
+                    //  playerTurn[activePlayer].Attack(playerTurn[1 - activePlayer], feature);  
+                    //  activePlayer = 1 - activePlayer;
+
                     if (i == 0)
                     {
-                        playerTurn[i].Attack(playerTurn[i + 1], feature);
+                       playerTurn[i].Attack(playerTurn[i + 1], feature);
                     }
                     else
                     {

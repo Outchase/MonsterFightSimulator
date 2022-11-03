@@ -30,7 +30,7 @@ namespace MonsterKampfSimulator
             "Centaur"
         };
 
-        public void Attack(Monster monster, Features feature)
+        public bool Attack(Monster monster, Features feature)
         {
 
             feature.PrintInColor(race[raceValue], printColor, true);
@@ -67,11 +67,13 @@ namespace MonsterKampfSimulator
             if (monster.stats["HP"] < 0)
             {
                 monster.stats["HP"] = 0;
+                return true;
             }
             feature.PrintInColor(monster.race[monster.raceValue], monster.printColor, true);
             Console.WriteLine(" has " + monster.stats["HP"] + " HP left");
             Console.WriteLine();
             Console.ReadKey(true);
+            return false;
         }
     }
 }
